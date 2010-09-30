@@ -1,0 +1,191 @@
+
+
+CHANGES IN THE 1.6.0 RELEASE
+----------------------------
+- Added RawInputStream.toByteArray() overload with max bytes to return.
+- Reduced memory allocation in RawInputStream.toString() for large streams.
+- Added CompressedRTFInputStream class and moved all compressed-RTF related functionality into it.
+- Changed RTF decompression end condition to be a self-referencing reference instead of using size field.
+- Changed RTF decompression to skip CRC check on uncompressed data.
+- Fixed Msg handling of message signature attachments containing an image.
+- Fixed Msg processing of multivalued MAPI types (MV_FLAG).
+- Fixed MAPIPropName.equals() comparison.
+- Added Message.getOEMCodePage() method.
+- Fixed handling of attAttachTransportFilename attribute.
+- Changed Message.getMAPIProps() to throw IOException.
+- Added Exchange property ID constants.
+- Improved javadocs and misc. minor refactorings.
+
+
+
+
+CHANGES IN THE 1.5.0 RELEASE
+----------------------------
+- Changed Msg.processRecipients() to return array instead of List and fixed ClassCastException.
+- Added PR_HTML and PR_BODY_HTML properties and their conversion in TNEFMime.
+- Made text body parts converted by TNEFMime use the UTF-8 encoding explicitly.
+- Fixed RawInputStream mark/reset implementation.
+- Added thrown IOException if attribute length is greater than actual available bytes in TNEFInputStream.readAttr().
+- Fixed NullPointerException in ReadReceiptHandler when a field is missing.
+- Added TNEFMime command line option to directly convert a TNEF attachment into a MIME file.
+- Improved documentation, javadocs, formatting and misc. minor refactorings.
+
+
+
+
+CHANGES IN THE 1.4.0 RELEASE
+----------------------------
+- Fixed attachment filename to be taken from TNEF attributes if it cannot be determined from the MAPI props.
+- Added support for converting a contact field with multiple values to multiple vCard fields in ContactHandler.
+- Fixed equals-hashCode contract of MAPIPropName.
+- Improved documentation, misc. minor fixes and applied some FindBugs recommendations.
+- Introduced the GUID class with immutability guarantee and convenience methods, now used wherever guids are needed.
+- Fixed RawInputStream to always handle end of stream conditions properly.
+- Added initial proof-of-concept .msg file handling in the new msg package and Msg class.
+- Fixed Attachment to remove leading GUID only on PT_OBJECTs.
+- Added Attr constructor which accepts an arbitrary data object (not just a RawInputStream).
+- Added an empty constructor to Message and extracted a read() method for easier subclassing and external use.
+- Added an embed parameter to TNEFMime.convert() for making converted TNEF message embedding optional.
+
+
+
+
+CHANGES IN THE 1.3.1 RELEASE
+----------------------------
+- Fixed TNEFMime conversion when the TNEF attachment is the root mime part, rather than an attachment.
+- Added experimental support for read receipt notifications (RFC 2298) in the new ReadReceiptHandler class.
+- Added a name field to RawDataSource, which is being used to properly support attachment filenames.
+- Reorganized and significantly improved vCard (contact) support in the new ContactHandler class.
+- Updated and added many vCard fields, including additional contact devices and X509 certificates.
+- Improved documentation and misc. minor fixes.
+
+
+
+
+CHANGES IN THE 1.3.0 RELEASE
+----------------------------
+- Fixed backward compatibility with JDK 1.3.1.
+- Added TNEFUtils.replace() method, which is used instead of String.replaceAll().
+- Fixed PR_ATTACH_DATA_OBJ properties to provide the content data without the leading GUID.
+- Fixed robustness of reading from streams, using read loop instead of single read.
+- Added TNEFUTils.calculateChecksum() overloads that accept a partial byte array or a RawInputStream.
+- Improved TNEFInputStream.readAttr() to reuse RawInputStream and avoid reading data into memory.
+- Added RawInputStream.readFully() method, and modified RawInputStream to use it internally.
+- Added RawInputStream.readXXX() methods for the primitive TNEF types.
+- Added MAPIValue.getRawData().
+- Changed ByteArrayInputStream returned by MAPIValue.getValue() with PT_OBJECT to RawInputStream.
+- Changed internal MAPIValue data to be stored as RawInputStream.
+- Added constructors to all objects that parse from a RawInputStream.
+- Improved TNEF.main to catch Throwable rather than Exception.
+- Modified a RawInputStream constructor contract - it now starts at current position of given RawInputStream.
+- Removed byte array constructors.
+- Fixed RawInputStream.available(), which is now used internally.
+- Modified everything for minimal memory use, by using RawInputStream everywhere.
+- Fixed parsing of PT_SHORT type properties.
+- Fixed parsing of PT_CLSID type properties.
+- Added URL (PR_BUSINESS_HOME_PAGE) to vCard.
+- Added common CDO PropSetId GUID constants to MAPIProp for convenient use with MAPIPropNames.
+- Added TNEFUtils.toGUID() convenience method to convert a GUID string to a GUID byte array.
+- Added overloaded MAPIProp.findProp(), getProp() and getPropValue() methods that work with MAPIPropNames.
+- Added MAPIPropName.equals() method.
+- Fixed vCard conversion of email field, using the CDO named property.
+- Reorganized contact to vCard conversion code.
+- Fixed escaped character handling in vCard conversion.
+- Updated to vCard version 3.0.
+- Added TNEFUtils.calculateCRC32() method and its use in decompressRTF().
+- Added BufferedInputStream wrapping for files in RawInputStream.
+- Fixed up the javadocs.
+
+
+
+
+CHANGES IN THE 1.2.3 RELEASE
+----------------------------
+- Added getMAPIProps convenience method to Message.
+- Changed atpWord attributes (attMessageClass) to return a string value.
+- Added experimental vCard (IPM.Contact) processing in TNEFMime.
+- Added RTF bodypart to converted message in TNEFMime if PR_RTF_COMPRESSED property exists.
+- Updated Attachment.getFilename javadoc to explicitly mention that filename may be null.
+- Added VCARD (IPM.Contact) support in TNEFMime.
+- Added text/rtf bodypart when PR_RTF_COMPRESSED property exists in TNEFMime.
+- Fixed TNEFMime handling when attachment has no filename.
+- Added jtnef.checksum.ignore system property to ignore invalid checksums.
+- Added TNEFInputStream.setChecksumIgnore method to ignore invalid checksums.
+
+
+
+
+CHANGES IN THE 1.2.2 RELEASE
+----------------------------
+
+- Fixed casting bug in TNEFMime.
+- Fixed overwriting of text of inner rfc822 message in TNEFMime.
+- Added getPropValue convenience method in MAPIProps.
+- Added finalizer in RawInputStream to close the underlying resources when no longer used.
+- Added utility method in TNEFUtils to check if a mime type is TNEF (includes application/vnd.ms-tnef).
+- Fixed Attachment.writeTo method to use a copy of the stream and leave the main stream untouched.
+- Fixed Attachment.writeTo when an attachment has no content.
+- Optimized Attachment.writeTo by using a buffer.
+- Fixed up the javadocs.
+
+
+
+
+CHANGES IN THE 1.2.1 RELEASE
+----------------------------
+
+- Added TNEFUtils.decompressRTF method which can decompress PR_RTF_COMPRESSED properties.
+- TNEFInputStream now uses RawInputStream internally to reduce memory footprint.
+- Fixed TNEFInputStream when used with file-based constructors (using RawInputStream).
+- Fixed TNEFUtils bytes-to-unsigned methods to be truly unsigned.
+
+
+
+
+CHANGES IN THE 1.2 RELEASE
+--------------------------
+
+- Added getAttribute(int ID) methods to Message and Attachment for easier access to attributes.
+- Attributes of type atpDate are now always in GMT and with 0 milliseconds.
+- Fixed attRecipTable attributes with multiple recipients.
+- Fixed the MAPIProps unused constructor.
+- Added GUID to MAPIPropName display.
+- Added MAPIProps container for easier access to property collections.
+- Changed MAPIValue.getValue() return object types to better reflect the MAPI types:
+                PT_INT          -> Integer
+                PT_ERROR        -> Integer
+                PT_BOOLEAN      -> Boolean
+                PT_FLOAT        -> Float
+                PT_DOUBLE       -> Double
+- Fixed RawInputStream.toByteArray() to work properly when the raw source is a byte array.
+- Fixed RawInputStream.newStream() to return proper length for -1 parameter.
+- Added TNEFUtils.getU64() method.
+- Changed non-Unicode string decoding to use "ISO8859-1" encoding
+  (see TNEFUtils.createString() JavaDoc). This allows the original bytes to be reconstructed.
+
+
+
+
+CHANGES IN THE 1.1 RELEASE
+--------------------------
+
+- TNEFMime command line now takes an options parameter.
+- TNEFMime command line supports option to extract a TNEF attachment from a MIME file.
+- Added getKey() method to TNEFInputStream to retrieve stream key.
+- Fixed handling of named properties of type MNID_STRING.
+- Fixed handling of properties of type PT_NULL.
+- Fixed Unicode support for properties of type PT_UNICODE_STRING.
+- Fixed handling of some multivalued properties (MV_FLAG).
+- Added toString() methods to Address, TRPAddress and RawInputStream for friendlier display.
+- Limited hex dump length for long binary fields.
+- Changed non-Unicode string decoding to use "Cp1252" encoding (see TNEFUtils.createString() JavaDoc).
+
+
+
+
+CHANGES IN THE 1.0 RELEASE
+--------------------------
+
+- This is the first release of the Java TNEF package.
+- Pre-release versions had a different package name prefix, but now it is
+  net.freeutils.* in accordance with the Java package naming convention.
