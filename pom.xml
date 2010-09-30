@@ -20,10 +20,21 @@
       <artifactId>poi</artifactId>
       <version>3.6</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.tika</groupId>
+      <artifactId>tika-core</artifactId>
+      <version>0.7</version>
+      <optional>true</optional>
+    </dependency>
   </dependencies>
 
   <build>
     <sourceDirectory>src</sourceDirectory>
+    <resources>
+      <resource>
+        <directory>resources</directory>
+      </resource>
+    </resources>
   </build>
 
 </project>
