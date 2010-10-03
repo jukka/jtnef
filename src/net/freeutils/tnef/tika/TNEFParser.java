@@ -40,7 +40,7 @@ import org.xml.sax.SAXException;
 public class TNEFParser extends DelegatingParser {
 
     public Set getSupportedTypes(ParseContext context) {
-        return Collections.singleton(MediaType.application("x-tnef"));
+        return Collections.singleton(MediaType.application("vnd.ms-tnef"));
     }
 
     public void parse(
