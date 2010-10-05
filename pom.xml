@@ -9,6 +9,12 @@
   <name>Java TNEF package</name>
   <url>http://www.freeutils.net/source/jtnef/</url>
 
+  <scm>
+    <connection>scm:git:git://github.com/jukka/jtnef.git</connection>
+    <developerConnection>scm:git:git@github.com:jukka/jtnef.git</developerConnection>
+    <url>http://github.com/jukka/jtnef</url>
+  </scm>
+
   <dependencies>
     <dependency>
       <groupId>org.apache.geronimo.specs</groupId>
